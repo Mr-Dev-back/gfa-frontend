@@ -2,7 +2,6 @@ import { useAuthStore } from '../../stores/useAuthStore';
 import { Bell, Search, User } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { Badge } from '../ui/badge';
 
 export function Topbar() {
     const { user } = useAuthStore();

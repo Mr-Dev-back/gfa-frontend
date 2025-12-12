@@ -10,7 +10,8 @@ import {
     Settings,
     ChevronLeft,
     Menu,
-    LogOut
+    LogOut,
+    Tv
 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useAuthStore } from '../../stores/useAuthStore';
@@ -27,6 +28,7 @@ const navItems = [
     { label: 'Parc Expédition', icon: Package, path: '/shipping', roles: ['PARK_AGENT', 'SUPERVISOR', 'ADMIN'] },
     { label: 'Pesée', icon: Scale, path: '/weighing', roles: ['WEIGHING_AGENT', 'SUPERVISOR', 'ADMIN'] },
     { label: 'Historique', icon: History, path: '/history', roles: ['SUPERVISOR', 'ADMIN'] },
+    { label: 'TV Public', icon: Tv, path: '/tv', roles: ['SUPERVISOR', 'ADMIN'], external: true },
     { label: 'Administration', icon: Settings, path: '/admin', roles: ['ADMIN'] },
 ];
 

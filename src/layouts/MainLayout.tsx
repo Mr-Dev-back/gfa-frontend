@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
-import { Sidebar } from './Sidebar';
-import { Topbar } from './Topbar';
-import { useAuthStore } from '../../stores/useAuthStore';
-import { cn } from '../../lib/utils';
+import { Sidebar } from '../components/layout/Sidebar';
+import { Topbar } from '../components/layout/Topbar';
+import { useAuthStore } from '../stores/useAuthStore';
+import { cn } from '../lib/utils';
 
 export function MainLayout() {
     const [collapsed, setCollapsed] = useState(false);

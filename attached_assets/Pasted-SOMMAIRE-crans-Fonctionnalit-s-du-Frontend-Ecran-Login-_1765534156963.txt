@@ -1,0 +1,497 @@
+SOMMAIRE – Écrans & Fonctionnalités du Frontend
+
+Ecran Login & Gestion des Sessions
+
+Layout Général (Shell App)
+
+Dashboard Superviseur
+
+Ecran de l’Agent de Contrôle (Entrée Camion)
+
+Ecran de la File d’Attente Temps Réel
+
+Ecran Agent Parc Expédition (Appel & Chargement)
+
+Ecran Pesée (Pont Bascule / Poids Entrée & Sortie)
+
+Ecran TV Public (Affichage temps réel)
+
+Ecran Historique / Parcours d’un Camion
+
+Ecran Administration (Rôles, Utilisateurs, Paramètres)
+
+Notifications & Feedback UI
+
+Composants de base & Design System
+
+✨ 1. Écran Login & Gestion des Sessions
+🎯 Objectif :
+
+Permettre l’accès au système selon le rôle :
+
+Contrôle (entrée)
+
+Parc (chargement)
+
+Pesée
+
+Superviseur
+
+Administrateur
+
+🔍 Contenu & Composants
+
+UI minimaliste : Card centrée, ombre légère, Material 3.
+
+Champs :
+
+Email / Identifiant
+
+Mot de passe
+
+Bouton “Connexion”
+
+Badge du rôle (automatique après connexion)
+
+🧠 Fonctionnalités
+
+Authentification via JWT
+
+Gestion des erreurs (401/403)
+
+Redirection selon rôle :
+
+Contrôle → écran Entrée
+
+Parc → écran Appel
+
+Pesée → Pesée
+
+Superviseur → Dashboard
+
+Admin → Gestion utilisateurs
+
+Stockage sécurisé via localStorage + Zustand session store
+
+✔️ Critères d’acceptation
+
+L’utilisateur est redirigé selon son rôle.
+
+Message clair en cas d’erreur.
+
+Tokens stockés et rafraîchis.
+
+✨ 2. Layout Général (Shell App)
+🎯 Objectif :
+
+Créer une structure cohérente, modulable, accessible et rapide.
+
+🧩 Contenu :
+
+Sidebar gauche (collapsible)
+
+Dashboard
+
+Entrée
+
+File d’attente
+
+Parc Expédition
+
+Pesée
+
+Historique
+
+Admin
+
+Topbar
+
+Nom utilisateur + rôle
+
+Actions rapides (refresh, paramètres)
+
+Indicateur WS (vert = connecté, rouge = déconnecté)
+
+Content area
+
+Grille 12 colonnes
+
+Breadcrumb
+
+Toolbar contextuelle
+
+✔️ Critères d’acceptation :
+
+Responsive 1280px → 1920px
+
+Sidebar docked
+
+Animations légères < 150 ms
+
+✨ 3. Dashboard Superviseur
+🎯 Objectif :
+
+Permettre une vision globale de la journée et de la performance.
+
+📊 Contenu :
+🔹 KPI cubes (4–6)
+
+Camions entrants
+
+Camions chargés
+
+Temps moyen d’attente
+
+Temps moyen de chargement
+
+Poids total expédié
+
+Taux anomalies
+
+🔹 Graphiques (Recharts)
+
+Volume par heure
+
+Temps d’attente par heure
+
+Répartition par type de produit
+
+🔹 Cards
+
+File d’attente (top 5 camions)
+
+Derniers camions chargés
+
+Anomalies en cours
+
+✔️ Fonctionnalités
+
+Refresh via WebSockets
+
+Tri / filtrage par plage horaire
+
+Mode “Superviseur TV” (affichage étendu)
+
+✨ 4. Écran Agent de Contrôle (Entrée Camion)
+
+(Le premier point de contact du système)
+
+🎯 Objectif :
+
+Enregistrer rapidement un camion, lui attribuer un ordre d’arrivée, l’injecter dans la file.
+
+🧩 Contenu :
+
+Formulaire d’enregistrement :
+
+Matricule camion
+
+Chauffeur
+
+Client
+
+Type marchandise prévue
+
+Observation (option)
+
+Card “File d’attente en cours” (compacte)
+
+🧠 Fonctionnalités
+
+Enregistrement instantané via API
+
+Injection dans file d’attente + broadcast WS
+
+Notification visuelle confirmation
+
+Auto-clear du formulaire après succès
+
+✔️ Critères d’acceptation
+
+< 3 secondes par enregistrement
+
+Erreur : “camion déjà enregistré” gérée
+
+✨ 5. Écran File d’Attente Temps Réel
+🎯 Objectif :
+
+Afficher la file classée par ordre d’arrivée + priorités dynamiques.
+
+📋 Contenu :
+
+Tableau temps réel (columns) :
+
+Ordre
+
+Matricule
+
+Client
+
+Produit prévu
+
+Heure arrivée
+
+Priorité (badge coloré)
+
+Statut
+
+Barre d’actions :
+
+Filtrer
+
+Rafraîchir
+
+Forcer priorité (superviseur uniquement)
+
+🧠 Fonctionnalités
+
+WebSocket pour mise à jour automatique
+
+Animation légère lors d’un nouvel entrant
+
+Couleurs selon priorité :
+
+Critique (rouge)
+
+Urgent (ambre)
+
+Normal (gris)
+
+✨ 6. Écran Agent Parc Expédition (Appel & Chargement)
+🎯 Objectif :
+
+Appeler les camions → enregistrer le chargement → autoriser départ vers pesée.
+
+🧩 Contenu :
+Section 1 : Appel camion
+
+Card “Prochain camion conseillé”
+
+Bouton “Appeler maintenant”
+
+Affichage du camion en cours
+
+Section 2 : Chargement
+
+Formulaire produits :
+
+Produit
+
+Quantité
+
+Remarques
+
+Liste des produits chargés
+
+🧠 Fonctionnalités
+
+Call camion via WS → Écran TV
+
+Mise à jour de la file
+
+Validation chargement → envoi vers pesée
+
+✨ 7. Écran Pesée (Pont Bascule / Entrée & Sortie)
+🎯 Objectif :
+
+Afficher le poids provenant du logiciel existant + valider entrée / sortie.
+
+📋 Contenu :
+
+Lecture en direct du poids (via API + polling + WS interne)
+
+Badge stabilité (vert si poids stable)
+
+Formulaire minimal :
+
+Sélection du ticket
+
+Validation poids entrée / sortie
+
+Historique des pesées en temps réel
+
+🧠 Fonctionnalités
+
+Indicateur de connexion au pont bascule
+
+Mode “lecture seule” automatique
+
+Vérification cohérence (poids net > 0)
+
+✨ 8. Écran TV Public
+🎯 Objectif :
+
+Afficher aux chauffeurs :
+
+les derniers camions appelés
+
+le prochain camion
+
+messages généraux
+
+🎥 Contenu :
+
+Grand panneau (Material 3)
+
+N° ordre → Camion → Client → Zone de chargement
+
+Messages d’alerte (ex : “Camion 458, zone 3”)
+
+Couleurs vives (bleu / ambre / vert)
+
+Rafraîchissement 100% WebSocket
+
+Fonctionnalités :
+
+Mode plein écran automatique
+
+Rotation (si beaucoup de camions)
+
+Animations légères (fade-in)
+
+✨ 9. Écran Historique / Parcours d’un Camion
+🎯 Objectif :
+
+Afficher la traçabilité complète du camion.
+
+📜 Contenu :
+
+Timeline Material design :
+
+Arrivée
+
+Appel
+
+Chargement
+
+Pesée entrée
+
+Pesée sortie
+
+Sortie du site
+
+Détails :
+
+Horodatages
+
+Agents impliqués
+
+Anomalies
+
+Produits chargés
+
+Fonctionnalités :
+
+Filtrer par date / matricule / client
+
+Export PDF / CSV
+
+Accès depuis dashboard
+
+✨ 10. Écran Administration
+🎯 Objectif :
+
+Gérer les utilisateurs du système + rôles + droits.
+
+📋 Contenu :
+
+Liste des utilisateurs
+
+Rôle (badge coloré)
+
+Statut (actif / inactif)
+
+Actions :
+
+Ajouter utilisateur
+
+Modifier
+
+Désactiver
+
+Fonctionnalités :
+
+Validation stricte
+
+Audit log intégré
+
+Gestion par Admin uniquement
+
+✨ 11. Notifications / Feedback UI
+🎯 Objectif :
+
+Garantir une expérience fluide, claire, rapide.
+
+Types
+
+Toast success → vert
+
+Toast warning → ambre
+
+Toast error → rouge
+
+Loader (Material Circular Progress)
+
+Empty state (illustration grise + texte)
+
+Confirm modal (pour actions critiques)
+
+Règles
+
+Toutes les actions sensibles → confirmation
+
+Chaque succès → toast < 2 sec
+
+Erreurs → message explicite
+
+✨ 12. Composants UI (Design System)
+
+Composants que le frontend doit offrir :
+
+🔷 Foundations
+
+Couleurs + palette
+
+Typography (Inter/Roboto/Manrope)
+
+Shadows (card shadow)
+
+Spacings
+
+🔶 UI Components
+
+Button (primary, subtle, danger)
+
+Card
+
+KPI Cube
+
+Table (tri / scroll / densité)
+
+Badge + Status Pills
+
+Toolbar
+
+Modal
+
+Tabs
+
+Inputs (M3 style)
+
+Select + Autocomplete
+
+Chips
+
+Pagination
+
+🔷 Layout Components
+
+Grid 12 colonnes
+
+Section Title
+
+Page Header
+
+Panel collapsible
+
+Sidebar / Topbar
